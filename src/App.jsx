@@ -13,15 +13,17 @@ import ParishMeeting from "./pages/ParishMeeting"
 import VillageHall from "./pages/VillageHall"
 import VillageShow from "./pages/VillageShow"
 import Layout from "./components/Layout"
+import { firstMonth } from './data/firstMonthData'
+import { secondMonth } from './data/secondMonthData'
 
 function App() {
     return (
         <Routes>
             <Route element={<Layout />}>
                 <Route exact path="/" element={<Home />}/>
-                <Route path="/events-events1" element={<Events1 />}/>
-                <Route path="/events-events2" element={<Events2 />}/>
-                <Route path="/events-events3" element={<Events3 />}/>
+                <Route path={`/events-${firstMonth.month.toLowerCase()}`} element={<Events1 />}/>
+                <Route path={`/events-${secondMonth.month.toLowerCase()}`}element={<Events2 />}/>
+                <Route path="/events-look-ahead" element={<Events3 />}/>
                 <Route path="/village-hall" element={<VillageHall />}/>
                 <Route path="/parish-meeting" element={<ParishMeeting />}/>
                 <Route path="/newsletter" element={<Newsletter />}/>

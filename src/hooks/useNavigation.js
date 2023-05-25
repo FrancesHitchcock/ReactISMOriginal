@@ -1,6 +1,10 @@
 import {useState, useEffect, useRef} from "react"
 
+import useScreenSizer from "./useScreenSizer"
+
 function useNavigation(){
+    const {mobileScreen} = useScreenSizer()
+
     const [eventsDropdownHidden, setEventsDropdownHidden] = useState(true)
     const [communityDropdownHidden, setCommunityDropdownHidden] = useState(true)
     const [outerNavHidden, setOuterNavHidden] = useState(true)
@@ -39,48 +43,49 @@ function useNavigation(){
         setOuterNavHidden(prev => !prev)
     }
 
-    function closeOuterNav(){
-        setOuterNavHidden(true)
-    }
-
     useEffect(() => {
-        const currentEventsDropdown = eventsDropdown.current
-        const currentEventsTitle = eventsTitle.current
-        const currentCommunityDropdown = communityDropdown.current
-        const currentCommunityTitle = communityTitle.current
-
-        function hideDropdown(e){
-            if(e.target !== currentEventsDropdown && e.target !== currentEventsTitle){
-                setEventsDropdownHidden(true)
-            }
-
-            if(e.target !== currentCommunityDropdown && e.target !== currentCommunityTitle){
-                setCommunityDropdownHidden(true)
-            }
-        }
-        document.addEventListener("click", hideDropdown)
+        if(mobileScreen){
+            const currentEventsDropdown = eventsDropdown.current
+            const currentEventsTitle = eventsTitle.current
+            const currentCommunityDropdown = communityDropdown.current
+            const currentCommunityTitle = communityTitle.current
     
-        return function(){
-            document.removeEventListener("click", hideDropdown)
+            function hideDropdown(e){
+                if(e.target !== currentEventsDropdown && e.target !== currentEventsTitle){
+                    setEventsDropdownHidden(true)
+                }
+    
+                if(e.target !== currentCommunityDropdown && e.target !== currentCommunityTitle){
+                    setCommunityDropdownHidden(true)
+                }
+            }
+            document.addEventListener("click", hideDropdown)
+        
+            return function(){
+                document.removeEventListener("click", hideDropdown)
+            }
         }
     }, [])
 
     useEffect(() => {
-        const menuButtonCurrent = menuButton.current
-        const eventsTitleCurrent = eventsTitle.current
-        const communityTitleCurrent = communityTitle.current
-
-        function hideOuterNav(e){
-
-            if(e.target !== eventsTitleCurrent && e.target !== communityTitleCurrent && e.target !== menuButtonCurrent){
-                setOuterNavHidden(true)
+        if(mobileScreen){
+            const menuButtonCurrent = menuButton.current
+            const eventsTitleCurrent = eventsTitle.current
+            const communityTitleCurrent = communityTitle.current
+    
+            const menuButtonChildren = Array.from(menuButtonCurrent.children)
+    
+            function hideOuterNav(e){
+                if(e.target !== eventsTitleCurrent && e.target !== communityTitleCurrent && e.target !== menuButtonCurrent && !menuButtonChildren.includes(e.target)){
+                    setOuterNavHidden(true)
+                }
             }
-        }
-
-        document.addEventListener("click", hideOuterNav)
-
-        return function(){
-            document.removeEventListener("click", hideOuterNav)
+    
+            document.addEventListener("click", hideOuterNav)
+    
+            return function(){
+                document.removeEventListener("click", hideOuterNav)
+            }
         }
     }, [])
 
@@ -101,7 +106,6 @@ function useNavigation(){
         toggleEventsDropdown,
         toggleCommunityDropdown,
         toggleOuterNav,
-        closeOuterNav
     }
 }
 

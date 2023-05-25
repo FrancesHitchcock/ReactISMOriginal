@@ -1,9 +1,27 @@
-import React from "react"
+import { Link } from "react-router-dom"
+import Events from "../components/Events"
+import { secondMonth } from "../data/secondMonthData"
+import { lookAhead } from "../data/lookAheadData"
 
 export default function Events3(){
+    const datesMarkup = lookAhead.dates.map(date => (
+        <Events
+            key={date.id}  
+            date={date}
+        />
+    ))
     return(
         <main className="main">
-            <h2>Events page 3</h2>
+            <section className="main-information events-section">
+                <div className="events-nav-container last-events-nav-container">
+                    <Link to={`/events-${secondMonth.month.toLowerCase()}`} className="events-nav-link back-link">
+                        &lt; {secondMonth.month}
+                    </Link>
+                </div>
+                <h2><span className="first-word-span">Events</span> look-ahead</h2>
+                <p className="events-location-info">All events take place at Ilketshall St Margaret Village Hall unless stated otherwise.</p>
+                {datesMarkup}
+            </section>
         </main>
     )
 }
