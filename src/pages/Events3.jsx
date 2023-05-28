@@ -4,12 +4,22 @@ import { secondMonth } from "../data/secondMonthData"
 import { lookAhead } from "../data/lookAheadData"
 
 export default function Events3(){
+    let lookAheadInfo = ""
+
+    if(lookAhead.dates.length > 0){
+        lookAheadInfo = "All events take place at Ilketshall St Margaret Village Hall unless stated otherwise."
+    }
+    else{
+        lookAheadInfo = "There are no events in the look-ahead calendar at the moment."
+    }
+
     const datesMarkup = lookAhead.dates.map(date => (
         <Events
             key={date.id}  
             date={date}
         />
     ))
+
     return(
         <main className="main">
             <section className="main-information events-section">
@@ -19,7 +29,7 @@ export default function Events3(){
                     </Link>
                 </div>
                 <h2><span className="first-word-span">Events</span> look-ahead</h2>
-                <p className="events-location-info">All events take place at Ilketshall St Margaret Village Hall unless stated otherwise.</p>
+                <p className="events-location-info">{lookAheadInfo}</p>
                 {datesMarkup}
             </section>
         </main>
