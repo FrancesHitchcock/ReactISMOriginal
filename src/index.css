@@ -81,9 +81,7 @@ body{
   font-family: var(--ff-primary);
   overflow-x: hidden;
   background-color: var(--clr-light);
-  /* test */
-  width: 100%;
-  overflow-x: hidden;
+
 }
 
 img{
@@ -97,6 +95,9 @@ img{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* test */
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* typography */
